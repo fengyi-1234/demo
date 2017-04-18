@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<style>
+	#box1{
+		width:100px;
+		height:100px;
+		background: red;
+		position:absolute;
+		
+	}
+
+	.c1{
+		width:100px;
+		height:100px;
+		background: yellow;
+		margin:200px auto;
+	}
+</style>
+</head>
+<body>
+	<div id="box1"></div>
+	
+	<script>
+		function Tab(){
+			this.box=document.getElementById('box1');
+			
+			this.disX=null;
+			this.disY=null;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+			this.l=null;
+			this.t=null;
+		
+			var _this=this;
+			
+			this.box.addEventListener('mousedown',function(ev){
+				_this.onDown(ev);
+			});
+		}
+		
+		//鼠标点击
+		Tab.prototype.onDown = function(ev){
+			var _this=this;
+			this.disX=ev.pageX-this.box.offsetLeft;
+			this.disY=ev.pageY-this.box.offsetTop;
+			
+			//鼠标移动
+			document.addEventListener('mousemove',move);
+			function move(ev){
+				_this.onMove(ev);
+			}
+			
+			
+			//鼠标抬起
+			document.addEventListener('mouseup',up);
+			function up(){
+				_this.onUp(move,up);
+			}
+			ev.preventDefault();
+		};
+		Tab.prototype.onMove=function(ev){
+			this.l=ev.pageX-this.disX;
+			this.t=ev.pageY-this.disY;
+			if(this.l<0){
+				this.l=0;
+			}else if(this.l>document.documentElement.clientWidth-this.box.offsetWidth){
+				this.l=document.documentElement.clientWidth-this.box.offsetWidth;
+			}
+			
+			if(this.t<0){
+				this.t=0;
+			}else if(this.t>document.documentElement.clientHeight-this.box.offsetHeight){
+				this.t=document.documentElement.clientHeight-this.box.offsetHeight;
+			}
+			this.box.style.left=this.l+'px';
+			this.box.style.top=this.t+'px';
+				
+			};
+			
+		Tab.prototype.onUp = function(move,up){
+			document.removeEventListener('mousemove',move);
+			document.removeEventListener('mouseup',up);
+			};
+		var a=new Tab();
+		
+	</script>
+</body>
+</html>
